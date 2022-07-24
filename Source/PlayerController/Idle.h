@@ -13,7 +13,7 @@ class PLAYERCONTROLLER_API Idle: public State
 public:
 	Idle();
 
-	virtual State* ControlInput(AMyCharacter& Player, UInputComponent* Input) override;
+	virtual State* ControlInput(AMyCharacter& Player) override;
 
 	virtual void Start(AMyCharacter& Player) override;
 	virtual void Update(AMyCharacter& Player) override;

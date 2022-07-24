@@ -22,7 +22,7 @@ AMyCharacter::AMyCharacter()
 
 	mystate->Start(*this);
 
-
+	Input = new Input_Controller;
 }
 
 // Called when the game starts or when spawned
@@ -45,19 +45,16 @@ void AMyCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	
 	//For printing string name of the current state
-	//UKismetSystemLibrary::PrintString(mystate->GetStateName());
+	this->PrintState(mystate->GetStateName());
 
 	mystate->Update(*this);
 
-	if(Input->GetAxisKeyValue())
 }
 
 // Called to bind functionality to input
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
-	Input = InputComponent;
 
 	//Rotating Camera
 	InputComponent->BindAxis("Up/DownRotation", this, &AMyCharacter::RotatePitch);
@@ -66,12 +63,12 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	//Those functions are called into state's state machine
 
 	//Jump
-	//InputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::JumpStart);
-	//InputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::JumpEnd);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::PressJump);
+	InputComponent->BindAction("Jump", IE_Released, this, &AMyCharacter::ReleaseJump);
 
 	//Movement
-	//InputComponent->BindAxis("Right/Left", this, &AMyCharacter::MoveRightLeft);
-	//InputComponent->BindAxis("Forward/Back", this, &AMyCharacter::MoveForwardBack);
+	InputComponent->BindAxis("Right/Left", this, &AMyCharacter::RightLeftMovement);
+	InputComponent->BindAxis("Forward/Back", this, &AMyCharacter::ForwardBackMovement);
 
 	//Save Input Variab
 	//UInputComponent* Input = PlayerInputComponent;
@@ -85,6 +82,26 @@ void AMyCharacter::RotatePitch(float value)
 void AMyCharacter::RotateYaw(float value)
 {
 	AddControllerYawInput(value);
+}
+
+void AMyCharacter::PressJump()
+{
+	Input->set_jump_is_pressed(true);
+}
+
+void AMyCharacter::ReleaseJump()
+{
+	Input->set_jump_is_pressed(false);
+}
+
+void AMyCharacter::ForwardBackMovement(float value)
+{
+	Input->set_forward_back_movement(value);
+}
+
+void AMyCharacter::RightLeftMovement(float value)
+{
+	Input->set_right_left_movement(value);
 }
 
 
@@ -104,13 +121,19 @@ void AMyCharacter::MoveForwardBack(float value)
 	}
 }
 
-void AMyCharacter::HandleInput(UInputComponent* myinput)
+void AMyCharacter::HandleInput()
 {
-	State* newstate = mystate->ControlInput(*this, myinput);
+	State* newstate = mystate->ControlInput(*this);
 	if (newstate != nullptr)
 	{
 		this->ChangeState(newstate);
 	}
+}
+
+void AMyCharacter::PrintState(const FString State)
+{
+	wchar_t* currentstate = TCHAR_TO_WCHAR(*State);
+	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Black, FString::Printf(TEXT("State: %s"), currentstate));
 }
 
 void AMyCharacter::ChangeState(State* newstate)

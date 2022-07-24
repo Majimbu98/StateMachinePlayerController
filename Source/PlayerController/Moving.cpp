@@ -13,15 +13,15 @@ Moving::~Moving()
 {
 }
 
-State* Moving::ControlInput(AMyCharacter& Player, UInputComponent* Input)
+State* Moving::ControlInput(AMyCharacter& Player)
 {
-
-	if ((Input->GetAxisKeyValue("Forward/Back") == 0) && (Input->GetAxisKeyValue("Right/Left") == 0))
+	
+	if ((Player.Input->forward_back_movement == 0) && (Player.Input->right_left_movement == 0))
 	{
 		return new Idle;
 	}
 
-	if (Input->GetAxisValue("Jump") == 1.0f)
+	if (Player.Input->jump_is_pressed)
 	{
 		return new MovingAndJumping;
 	}
@@ -31,31 +31,31 @@ State* Moving::ControlInput(AMyCharacter& Player, UInputComponent* Input)
 
 void Moving::Start(AMyCharacter& Player)
 {
-	if (Player.Input->GetAxisKeyValue("Forward/Back") != 0)
+	if (Player.Input->forward_back_movement != 0)
 	{
-		Player.MoveForwardBack(Player.Input->GetAxisKeyValue("Forward/Back"));
+		Player.MoveForwardBack(Player.Input->forward_back_movement);
 	}
 
-	if (Player.Input->GetAxisKeyValue("Right/Left") != 0)
+	if (Player.Input->right_left_movement != 0)
 	{
-		Player.MoveRightLeft(Player.Input->GetAxisKeyValue("Right/Left"));
+		Player.MoveRightLeft(Player.Input->right_left_movement);
 	}
 }
 
 void Moving::Update(AMyCharacter& Player)
 {
 
-	if (Player.Input->GetAxisKeyValue("Forward/Back") != 0)
+	if (Player.Input->forward_back_movement != 0)
 	{
-		Player.MoveForwardBack(Player.Input->GetAxisKeyValue("Forward/Back"));
+		Player.MoveForwardBack(Player.Input->forward_back_movement);
 	}
 
-	if (Player.Input->GetAxisKeyValue("Right/Left") != 0)
+	if (Player.Input->right_left_movement != 0)
 	{
-		Player.MoveRightLeft(Player.Input->GetAxisKeyValue("Right/Left"));
+		Player.MoveRightLeft(Player.Input->right_left_movement);
 	}
 
-	Player.HandleInput(Player.Input);
+	Player.HandleInput();
 }
 
 void Moving::Exit(AMyCharacter& Player)
@@ -65,5 +65,5 @@ void Moving::Exit(AMyCharacter& Player)
 
 FString Moving::GetStateName()
 {
-	return TEXT("Moving");
+	return "Moving";
 }

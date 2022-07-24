@@ -14,9 +14,9 @@ Jumping::~Jumping()
 {
 }
 
-State* Jumping::ControlInput(AMyCharacter& Player, UInputComponent* Input)
+State* Jumping::ControlInput(AMyCharacter& Player)
 {
-	if (Input->GetAxisKeyValue("Forward/Back") != 0 || Input->GetAxisKeyValue("Right/Left") != 0)
+	if (Player.Input->forward_back_movement != 0 || Player.Input->right_left_movement != 0)
 	{
 		return new MovingAndJumping;
 	}
@@ -36,7 +36,7 @@ void Jumping::Update(AMyCharacter& Player)
 	}
 	else
 	{
-		Player.HandleInput(Player.Input);
+		Player.HandleInput();
 	}
 }
 
@@ -47,5 +47,5 @@ void Jumping::Exit(AMyCharacter& Player)
 
 FString Jumping::GetStateName()
 {
-	return TEXT("Jumping");
+	return "Jumping";
 }

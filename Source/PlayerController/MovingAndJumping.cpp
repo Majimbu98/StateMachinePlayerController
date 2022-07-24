@@ -11,10 +11,29 @@ MovingAndJumping::~MovingAndJumping()
 {
 }
 
-State* MovingAndJumping::ControlInput(AMyCharacter& Player, UInputComponent* Input)
+State* MovingAndJumping::ControlInput(AMyCharacter& Player)
 {
+	/*
+	if (Player.Input->forward_back_movement != 0)
+	{
+		Player.MoveForwardBack(Player.Input->forward_back_movement);
+	}
 
+	if (Player.Input->right_left_movement != 0)
+	{
+		Player.MoveRightLeft(Player.Input->right_left_movement);
+	}
 
+	if (!Player.GetCharacterMovement()->IsFalling())
+	{
+		Player.ChangeState(new Idle);
+	}
+	else
+	{
+		Player.HandleInput();
+	}
+
+	*/
 
 	return nullptr;
 }
@@ -36,5 +55,5 @@ void MovingAndJumping::Exit(AMyCharacter& Player)
 
 FString MovingAndJumping::GetStateName()
 {
-	return TEXT("MovingAndJumping");
+	return "MovingAndJumping";
 }

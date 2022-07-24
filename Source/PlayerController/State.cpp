@@ -8,7 +8,7 @@ State::State()
 {
 }
 
-State* State::ControlInput(AMyCharacter& Player, UInputComponent* Input)
+State* State::ControlInput(AMyCharacter& Player)
 {
 	return nullptr;
 }

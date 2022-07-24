@@ -12,7 +12,7 @@ class PLAYERCONTROLLER_API State
 public:
 	State();
 	~State();
-	virtual State* ControlInput(AMyCharacter& Player, UInputComponent* Input);
+	virtual State* ControlInput(AMyCharacter& Player);
 
 	//3 Virtual Function that each states must have
 	virtual void Start(AMyCharacter& Player) = 0;

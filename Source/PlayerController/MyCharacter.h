@@ -6,7 +6,9 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "State.h"
+#include "Input_Controller.h"
 #include "MyCharacter.generated.h"
+
 
 class State;
 
@@ -34,9 +36,6 @@ public:
 	void MoveRightLeft(float value);
 	void MoveForwardBack(float value);
 
-
-
-
 	//Jump Functions
 	void JumpStart();
 	void JumpEnd();
@@ -45,6 +44,12 @@ public:
 	void RotatePitch(float value);
 	void RotateYaw(float value);
 
+	//Set input functions
+	void PressJump();
+	void ReleaseJump();
+	void ForwardBackMovement(float value);
+	void RightLeftMovement(float value);
+
 	//Player state
 	State* mystate;
 
@@ -52,8 +57,11 @@ public:
 	void ChangeState(State* newstate);
 
 	//Input Player
-	UInputComponent* Input;
+	Input_Controller* Input;
 
 	//For Verify input
-	void HandleInput(UInputComponent* myinput);
+	void HandleInput();
+
+	//For printing state
+	void PrintState(const FString State);
 };

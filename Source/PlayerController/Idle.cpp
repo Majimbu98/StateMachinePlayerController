@@ -9,14 +9,14 @@ Idle::Idle()
 {
 }
 
-State* Idle::ControlInput(AMyCharacter& Player, UInputComponent* Input)
+State* Idle::ControlInput(AMyCharacter& Player)
 {
-	if ((Input->GetAxisValue("Jump")) == 1.0f)
+	if ((Player.Input->jump_is_pressed))
 	{
 		return new Jumping;
 	}
 
-	if (Input->GetAxisKeyValue("Forward/Back") != 0 || Input->GetAxisKeyValue("Right/Left") != 0 )
+	if ((Player.Input->forward_back_movement != 0) || (Player.Input->right_left_movement != 0 ))
 	{
 		return new Moving;
 	}
@@ -30,7 +30,7 @@ void Idle::Start(AMyCharacter& Player)
 
 void Idle::Update(AMyCharacter& Player)
 {
-	Player.HandleInput(Player.Input);
+	Player.HandleInput();
 }
 
 void Idle::Exit(AMyCharacter& Player)
@@ -39,7 +39,7 @@ void Idle::Exit(AMyCharacter& Player)
 
 FString Idle::GetStateName()
 {
-	return TEXT("Idle");
+	return "Idle";
 }
 
 Idle::~Idle()
